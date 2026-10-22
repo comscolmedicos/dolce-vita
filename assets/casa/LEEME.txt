@@ -1,0 +1,3 @@
+Las 16 vistas de la villa: casa-01.webp ... casa-16.webp
+01 = perfil izquierdo, 08 = frente, 16 = perfil derecho.
+Si cambias el formato, ajusta VISTA_360.formato en index.html.

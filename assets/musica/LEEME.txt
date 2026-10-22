@@ -1,0 +1,10 @@
+MÚSICA DE FONDO
+
+Suenan dos capas mezcladas: la canción (musica.mp3) y, por debajo, un ambiente mediterráneo generado por el navegador (olas suaves y acordes lentos).
+
+musica.mp3 = TemaFondoBB con el efecto "detrás de la puerta" ya aplicado (agudos apagados, casi mono y con un poco de sala) para que se funda con el ambiente. Ya es el archivo final.
+
+Para cambiar la canción: reemplaza musica.mp3 por otro archivo con el mismo nombre (o cambia MUSICA.src en index.html). Si quieres el mismo efecto en la nueva canción, pásamela y se lo aplico; si la pones tal cual, sonará sin efecto.
+En index.html, bloque MUSICA: volumen (canción, 0 a 1), volAmbiente (ambiente, 0 a 1), ambiente:false (quita el ambiente), bucle:false (la canción suena una sola vez) y activo:false (apaga todo).
+
+Suena al pulsar "Entrar al Club"; el botón de la esquina inferior izquierda permite silenciarla. La canción debe tener licencia de uso.

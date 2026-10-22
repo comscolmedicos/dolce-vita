@@ -1,0 +1,6 @@
+Fotos de los looks (recortadas, fondo transparente, ya optimizadas en .webp):
+mujer-1, mujer-2, mujer-3, hombre-1, hombre-2, hombre-3
+
+Se ven 3 a la vez y el resto se desliza al arrastrar. Al tocar un look se agranda; al cerrarlo vuelve a su lugar.
+Para cambiar una foto: reemplaza el archivo con el mismo nombre (mejor .webp o .png con fondo transparente y figura de cuerpo completo).
+Si usas otra extensión (por ejemplo .png), cambia la ruta en el arreglo LOOKS de index.html.
