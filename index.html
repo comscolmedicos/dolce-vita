@@ -322,6 +322,10 @@ html.bloq,html.bloq body{overflow:hidden;overscroll-behavior:none}
 @keyframes selloIdle{0%,58%,100%{transform:none}68%{transform:scale(1.07) rotate(-5deg)}78%{transform:scale(1.03) rotate(4deg)}88%{transform:scale(1.05) rotate(-2deg)}}
 .sobre:not(.abierto) .sello:not(:hover):not(:focus-visible){animation:selloIdle 4.2s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.sobre .sello{animation:none!important}}
+/* base luminosa de la villa giratoria: suaviza el corte inferior de las vistas */
+#vl2 img{-webkit-mask-image:linear-gradient(to bottom,#000 84%,transparent 100%);mask-image:linear-gradient(to bottom,#000 84%,transparent 100%)}
+#vl2::after{content:"";position:absolute;left:4%;right:4%;bottom:-5%;height:30%;border-radius:50%;background:radial-gradient(ellipse at 50% 38%,rgba(255,236,190,.7),rgba(20,120,165,.38) 44%,transparent 74%);filter:blur(8px);mix-blend-mode:screen;opacity:.35;transition:opacity 2.4s;pointer-events:none}
+#vl2.lit::after{opacity:1}
 </style>
 </head>
 <body>
@@ -581,16 +585,21 @@ new IntersectionObserver(([e])=>document.body.classList.toggle('dentro',!e.isInt
 /* Escena 1: entrada con velo circular */
 $('#circ').classList.add('on');
 setTimeout(() => $('#circ').classList.add('on'), 1600);
+let entrando = false;
 $('#entrar').onclick = () => {
+  if (entrando) return; entrando = true;
   const v = $('#velo');
-  desbloquear();
-  if (reducir) return ir('#s2');
+  if (reducir) { desbloquear(); return ir('#s2'); }
   v.style.transition = 'clip-path .8s ease-in';
   v.style.clipPath = 'circle(150% at 50% 50%)';
   setTimeout(() => {
-    $('#s2').scrollIntoView({behavior:'auto'});
+    /* con el velo cubriendo toda la pantalla: se cambia el fondo y se salta a la leyenda al instante */
+    const fo = $('#fondo'), h = document.documentElement;
+    desbloquear();   /* la barra de desplazamiento aparece aquí, tapada por el velo */
+    fo.style.transition = 'none'; document.body.classList.add('dentro'); void fo.offsetWidth;
+    h.style.scrollBehavior = 'auto'; $('#s2').scrollIntoView(); h.style.scrollBehavior = '';
     v.style.transition = 'opacity .7s'; v.style.opacity = 0;
-    setTimeout(() => {v.style.transition = 'none'; v.style.clipPath = 'circle(0 at 50% 50%)'; v.style.opacity = 1;}, 750);
+    setTimeout(() => {v.style.transition = 'none'; v.style.clipPath = 'circle(0 at 50% 50%)'; v.style.opacity = 1; fo.style.transition = '';}, 750);
   }, 850);
 };
 
@@ -777,7 +786,12 @@ conf.onclick = e => {
 /* Navegación */
 $('#ver').onclick = () => ir('#s3');
 /* Último botón: lleva a la invitación y abre la carta por si no se había abierto */
-$('#ver2').onclick = () => { ir('#s5'); if (!$('#sobre').classList.contains('abierto')) setTimeout(abrir, reducir ? 150 : 750); };
+$('#ver2').onclick = () => {
+  const c = $('#carta'), r = $('#sobre').getBoundingClientRect();
+  const arriba = r.top + c.offsetTop - c.offsetHeight * .62;   /* borde superior de la carta ya abierta */
+  scrollTo({top: Math.max(0, scrollY + (arriba + r.bottom) / 2 - innerHeight / 2), behavior: reducir ? 'auto' : 'smooth'});
+  if (!$('#sobre').classList.contains('abierto')) setTimeout(abrir, reducir ? 150 : 750);
+};
 $('#inicio').onclick = () => ir('#s1');
 
 /* Parallax del puntero y cursor (solo con puntero fino) */
