@@ -395,7 +395,7 @@ html.bloq,html.bloq body{overflow:hidden;overscroll-behavior:none}
 <q>Los mejores recuerdos no se construyen a solas. Se viven juntos.</q>
 <span class="filete" aria-hidden="true"></span>
 <div class="sello-final"><h2 class="titulo">DOLCE VITA CLUB 2026</h2><p class="firma">Benvenuti</p></div>
-<div class="acciones"><button class="btn sm" id="inicio">Volver al inicio</button><button class="btn sm" id="ver2">Consultar destinos</button></div>
+<div class="acciones"><button class="btn sm" id="inicio">Volver al inicio</button><button class="btn sm" id="ver2">Confirma tu asistencia</button></div>
 </section>
 </main>
 
@@ -775,7 +775,9 @@ conf.onclick = e => {
 };
 
 /* Navegación */
-$('#ver').onclick = $('#ver2').onclick = () => ir('#s3');
+$('#ver').onclick = () => ir('#s3');
+/* Último botón: lleva a la invitación y abre la carta por si no se había abierto */
+$('#ver2').onclick = () => { ir('#s5'); if (!$('#sobre').classList.contains('abierto')) setTimeout(abrir, reducir ? 150 : 750); };
 $('#inicio').onclick = () => ir('#s1');
 
 /* Parallax del puntero y cursor (solo con puntero fino) */
